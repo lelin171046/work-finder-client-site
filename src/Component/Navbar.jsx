@@ -6,11 +6,11 @@ import { Link } from "react-router-dom"
 const Navbar = () => {
     const {user,logOut} = useContext(AuthContext)
     return (
-      <div className='navbar bg-base-100 shadow-sm container px-4 mx-auto'>
+      <div className='navbar bg-base-100 border-2 mt-5 border-purple-400 rounded-lg shadow-sm container px-4 mx-auto'>
         <div className='flex-1'>
           <div className='flex gap-2 items-center'>
             <img className='w-auto h-7' src='' alt='' />
-            <span className='font-bold'>WorkFinder</span>
+            <span className='font-bold text-xl'>Work<span className="text-purple-400">Finder</span></span>
           </div>
         </div>
         <div className='flex-none'>
@@ -43,7 +43,7 @@ const Navbar = () => {
               className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
             >
               <li>
-                <div className='justify-between'>Add Job</div>
+                <Link to={'/add-job'} className='justify-between'>Add Job</Link >
               </li>
               <li>
                 <div>My Posted Jobs</div>
