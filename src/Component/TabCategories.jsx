@@ -12,7 +12,7 @@ const TabCategories = () => {
 
     useEffect(()=>{
       const getData = async () =>{
-        const {data} = await axios('http://localhost:8000/jobs')
+        const {data} = await axios(`${import.meta.env.VITE_API_URL}/jobs`)
         setJobs(data)
       }
       getData()
@@ -41,7 +41,7 @@ const TabCategories = () => {
           </TabList>
         </div>
         <TabPanel>
-          <div className='grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          <div className='grid  gap-8 mt-8 xl:mt-16 w-full'>
           {
             jobs?.filter(j=>j.category ==='Web Development').map(job=>(<JobCard key={job._id} job={job}></JobCard>))
           }

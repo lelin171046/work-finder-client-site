@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom"
+import { useLoaderData, useNavigate, useParams } from "react-router-dom"
 import useAuth from "../Provider/useAuth";
 import DatePicker from "react-datepicker";
 
@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 
 const JobDetails = () => {
     // const {job} = useLoaderData();
+
+    const navigate = useNavigate()
     const [startDate, setStartDate] = useState(new Date());
     const {user} = useAuth()
     // console.log(job);
@@ -31,20 +33,20 @@ const JobDetails = () => {
   } = job ;
 
   const handleFrom = async (e) => {
-    if(user?.email === buyer_email) return toast.error('You Cant bit your own job post')
-    
     e.preventDefault();
-    
-      
-    
+  
+    if (user?.email === buyer?.email) {
+      return toast.error('You can’t bid on your own job post');
+    }
+  
     const form = e.target;
     const jobId = _id;
-    
+  
     if (min_price) {
       const price = parseFloat(form.price.value);
       if (price < parseFloat(min_price)) {
         alert('Please set a bid above the minimum price');
-        return; // Stop further execution if the price is below the minimum
+        return;
       }
     }
   
@@ -53,10 +55,9 @@ const JobDetails = () => {
     const status = 'Pending';
     const comment = form.comment.value;
   
-    // Constructing bidData with only necessary information
     const bidData = {
       jobId,
-      price: parseFloat(form.price.value),  // Parse to ensure price is a number
+      price: parseFloat(form.price.value),
       email,
       comment,
       buyer_email: buyer?.email,
@@ -66,18 +67,15 @@ const JobDetails = () => {
       job_title,
     };
   
-    console.log('Submitting bidData:', bidData); // Debug: check bidData before sending
-  
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidData);
-      console.log('Response data:', data);
       toast.success('Bid placed successfully');
+      navigate('/my-bids')
     } catch (err) {
       console.error('Error submitting bid:', err);
       toast.error('Failed to place bid');
     }
   };
-  
     return (
       <div className='flex flex-col md:flex-row justify-around gap-5  my-10 items-center min-h-[calc(100vh-306px)] md:max-w-screen-xl mx-auto '>
         {/* Job Details */}

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../Provider/useAuth"
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -6,6 +6,9 @@ import Swal from "sweetalert2";
 const Registration = () => {
   const { signInWithGoogle, createUser, updateUserProfile, user, setUser } = useAuth();
   const navigate = useNavigate()
+
+  const location = useLocation()
+  const from = location.state || '/'
   // Google Signin
   const handleGoogleSignIn = async () => {
     try {
