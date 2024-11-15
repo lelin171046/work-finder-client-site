@@ -21,6 +21,9 @@ const Navbar = () => {
           <li>
             <Link to={'/'}> <div>Home</div></Link>
           </li>
+          <li>
+            <Link to={'/temp'}>Temp</Link>
+          </li>
 
           {!user && <li>
             <Link to={'/login'}> <div>Login</div></Link>

@@ -12,6 +12,7 @@ import MyBids from "../Pages/MyBids";
 import BidRequests from "../Pages/BidRequests";
 import UpdateJob from "../Pages/UpdateJob";
 import PrivateRoute from "./PrivateRoute";
+import TemplateUploader from "../Pages/TemplateUploader";
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
                 path: '/register',
                 element: <Registration></Registration>
             },
+            {
+                path: '/temp',
+                element: <TemplateUploader></TemplateUploader>
+            }
+            ,
             {
                 path: '/job/:id',
                 element: <PrivateRoute><JobDetails></JobDetails></PrivateRoute>

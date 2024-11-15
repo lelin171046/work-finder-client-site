@@ -31,7 +31,7 @@ const Login = () => {
         { withCredentials: true }
       )
       console.log(data)
-      toast.success('Signin Successful')
+      toast.success('SignIn Successful')
       navigate(from, { replace: true })
     } catch (err) {
       console.log(err)

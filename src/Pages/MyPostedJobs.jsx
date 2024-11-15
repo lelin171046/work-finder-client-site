@@ -21,7 +21,7 @@ const {user } = useAuth()
   const handleDelete = async id => {
     try {
       const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`)
-      console.log(data)
+      // console.log(data)
       toast.success('Delete Successful')
 
       //refresh ui

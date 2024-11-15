@@ -17,13 +17,13 @@ const JobDetails = () => {
     const [job, setJob] = useState({});
     const {id} = useParams();
     useEffect(()=>{
-      const Getdata = async ()=>{
+      const GetData = async ()=>{
         const data = await axios(`${import.meta.env.VITE_API_URL}/job/${id}`)
         setJob(data.data)
-        console.log(data);
+        // console.log(data);
 
       }
-      Getdata()
+      GetData()
 
     },[id])
     
@@ -69,6 +69,7 @@ const JobDetails = () => {
   
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidData);
+      // console.log(data);
       toast.success('Bid placed successfully');
       navigate('/my-bids')
     } catch (err) {

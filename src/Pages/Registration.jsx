@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../Provider/useAuth"
 import axios from "axios";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const Registration = () => {
   const { signInWithGoogle, createUser, updateUserProfile, user, setUser } = useAuth();
@@ -24,7 +25,7 @@ const Registration = () => {
         },
         { withCredentials: true }
       )
-      console.log(data)
+      // console.log(data)
       toast.success('Signin Successful')
       navigate(from, { replace: true })
     } catch (err) {
@@ -41,7 +42,7 @@ const Registration = () => {
     const name = form.name.value
     const photo = form.photo.value
     const pass = form.password.value
-    console.log({ email, pass, name, photo })
+    // console.log({ email, pass, name, photo })
     try {
       //2. User Registration
       const result = await createUser(email, pass)
@@ -56,7 +57,7 @@ const Registration = () => {
         },
         { withCredentials: true }
       )
-      console.log(data)
+      // console.log(data)
       navigate(from, { replace: true })
       Swal.fire('Signup Successful')
     } catch (err) {
