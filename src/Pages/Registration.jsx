@@ -59,7 +59,7 @@ const Registration = () => {
       )
       // console.log(data)
       navigate(from, { replace: true })
-      Swal.fire('Signup Successful')
+      Swal.fire('SignUp Successful')
     } catch (err) {
       console.log(err)
       Swal.fire(err?.message)
