@@ -11,6 +11,7 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <Toaster></Toaster>
       <RouterProvider router={router}>
+        
         <Toaster /> {/* Add Toaster here to provide toast notifications */}
       </RouterProvider>
     </AuthProvider>

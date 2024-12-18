@@ -1,4 +1,3 @@
-import { useContext, useState } from 'react'
 import DatePicker from 'react-datepicker'
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -47,7 +46,7 @@ const UpdateJob = () => {
 
     try {
       const { data } = await axios.put(
-        `${import.meta.env.VITE_API_URL}/update/${_id}`,
+        `${import.meta.env.VITE_API_URL}/update/${_id}`, { withCredentials: true},
         jobData
       )
       console.log(data)

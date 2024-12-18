@@ -1,34 +1,82 @@
-import { useCallback, useEffect, useState } from 'react'
+import {  useContext, useEffect, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import axios from 'axios'
-import useAuth from '../Provider/useAuth'
+
 import Loader from '../Component/Loader'
+import { AuthContext } from '../Provider/AuthProvider'
+import useAxiosSecure from '../Hook/useAxiosSecure'
+import useAuth from '../Provider/useAuth'
+import axios from 'axios'
 
 const MyPostedJobs = () => {
-  const { user } = useAuth()
+
+const {user} = useAuth()
+
+  // const { user } = useContext(AuthContext)
+
   const [jobs, setJobs] = useState([])
 
-  const [loading, setLoading] = useState(false);
-
-  const getData = useCallback(async () => {
-    setLoading(true)
-    const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.email}`,
-      {withCredentials: true}
-    );
-    setJobs(data);
-    setLoading(false)
-  }, [user?.email]);
+  const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    console.log(user, 'here User');
+    getData()
+  }, [user])
+
+
+
+  const getData = async () => {
+    const { data } = await axiosSecure(`/jobs/${user?.email}`)
+    setLoading(false)
+    setJobs(data)
+  }
+  // const getData = async () => {
+  //   const { data } = await axiosSecure(`/job/${user?.email}`)
+  //   console.log(data, 'gdsajufgjugds');
+  //   setJobs(data)
+  // }
+
+
+  // const getData = async () => {
+  //   if (!user?.email) {
+  //     setLoading(false);
+  //     return;
+  //   }
+  //   try {
+  //     const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.email}`);
+
+  //     setJobs(data);
+  //   } catch (error) {
+  //     console.error("Error fetching jobs:", error.message);
+  //     toast.error("Failed to fetch jobs.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
+
+  // const getData = async () => {
+  //   // setLoading(true)
+  //   const { data } = await axios(
+  //     `${import.meta.env.VITE_API_URL}/jobs/${user?.email}`,
+  //     { withCredentials: true }
+  //   )
+  //   console.log(data, 'fsd');
+  //   setLoading(false)
+  //   setJobs(data)
+  // }
+
+
+
+
+  
 
   const handleDelete = async id => {
     try {
-      const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`)
-      
+      const { data } = await axiosSecure.delete(`/jobs/${id}`)
+
       console.log(data)
 
       toast.success('Delete Successful')

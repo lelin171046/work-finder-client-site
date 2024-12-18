@@ -34,7 +34,7 @@ const Registration = () => {
     }
   }
 
-  //regiseter
+  //registration 
   const handleSignUp = async e => {
     e.preventDefault()
     const form = e.target
