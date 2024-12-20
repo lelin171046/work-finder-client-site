@@ -8,6 +8,7 @@ import useAuth from '../Provider/useAuth'
 const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  
   const { signIn, signInWithGoogle, user, loading } = useAuth()
   useEffect(() => {
     if (user) {

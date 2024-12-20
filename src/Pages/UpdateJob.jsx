@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import useAuth from '../Provider/useAuth'
+import { useState } from 'react'
 
 const UpdateJob = () => {
   const navigate = useNavigate()

@@ -6,9 +6,12 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../Hook/useAxiosSecure";
 
 const JobDetails = () => {
     // const {job} = useLoaderData();
+
+    const axiosSecure = useAxiosSecure()
 
     const navigate = useNavigate()
     const [startDate, setStartDate] = useState(new Date());
@@ -18,7 +21,7 @@ const JobDetails = () => {
     const {id} = useParams();
     useEffect(()=>{
       const GetData = async ()=>{
-        const data = await axios(`${import.meta.env.VITE_API_URL}/job/${id}`)
+        const data = await axiosSecure(`/job/${id}`)
         setJob(data.data)
         // console.log(data);
 
@@ -73,8 +76,8 @@ const JobDetails = () => {
       toast.success('Bid placed successfully');
       navigate('/my-bids')
     } catch (err) {
-      console.error('Error submitting bid:', err);
-      toast.error('Failed to place bid');
+      toast.error(err.response.data);
+      e.target.reset()
     }
   };
     return (
@@ -130,6 +133,7 @@ const JobDetails = () => {
                   Price
                 </label>
                 <input
+                required
                   id='price'
                   type='text'
                   name='price'

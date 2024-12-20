@@ -1,27 +1,62 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
 import useAuth from "../Provider/useAuth"
+import { useMutation, useQuery, useQueryClient, } from '@tanstack/react-query'
+import useAxiosSecure from "../Hook/useAxiosSecure"
+import Loader from "../Component/Loader"
+import toast from "react-hot-toast"
 
 const BidRequests = () => {
   const { user } = useAuth()
-  const [bids, setBids] = useState([])
+  const axiosSure = useAxiosSecure()
+  const queryClient = useQueryClient()
+  const {
+    data: bids = [],
+    isError,
+    isLoading,
+    refetch,
+    error } = useQuery({
+      queryFn: () => getData(),
+      queryKey: ['bids', user?.email],
 
-  useEffect(() => {
-    getData()
-  }, [user])
+    })
+
+
+
 
   const getData = async () => {
-    const { data } = await axios(`${import.meta.env.VITE_API_URL}/bids-requests/${user?.email}`)
-    setBids(data)
+    const { data } = await axiosSure(`/bids-requests/${user?.email}`)
+    return data
   }
-//handle Status
 
-  const handleStatus = async(id, prevStatus, status) => {
-    if(prevStatus === status) return alert('Already accepted')
-    console.log('here ui', id, status, prevStatus);
-    const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bid/${id}`, {status})
-    console.log(data);
+  const { mutateAsync, } = useMutation({
+    mutationFn: async ({ id, status }) => {
+      const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bid/${id}`, { status })
+      console.log(data);
+    },
+    onSuccess: () => {
+      console.log('ok updated');
+      toast.success('updated successfully')
+      //refresh ui
+
+      // refetch()
+      //OR
+      queryClient.invalidateQueries({queryKey: ['bids']})
+
+    }
+  })
+  //handle Status
+
+  const handleStatus = async (id, prevStatus, status) => {
+    if (prevStatus === status) return toast.error('Already aceepted')
+
     getData()
+
+    await mutateAsync({ id, status })
+  }
+  if (isLoading) return <Loader></Loader>
+  if (isError || error) {
+    console.log(isError, error);
+
   }
   return (
     <section className='container px-4 mx-auto pt-12'>
@@ -134,14 +169,14 @@ const BidRequests = () => {
                            ${bid.status !== 'Complete' && 'hover:text-red-500'} focus:outline-none`}
                           >✔</button>
 
-                              {/* cancel button */}
+                          {/* cancel button */}
                           <button
-                           onClick={() => handleStatus(bid._id, bid.status, 'Cancelled')}
-                           disabled={bid.status === 'Complete'}
+                            onClick={() => handleStatus(bid._id, bid.status, 'Cancelled')}
+                            disabled={bid.status === 'Complete'}
 
-                           className='text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none'>
-                          {/* ${bid.status !== 'Complete' && 'hover:text-red-500'}  */}
-                            
+                            className='text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none'>
+                            {/* ${bid.status !== 'Complete' && 'hover:text-red-500'}  */}
+
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               fill='none'

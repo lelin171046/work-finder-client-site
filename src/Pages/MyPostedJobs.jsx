@@ -8,6 +8,7 @@ import { AuthContext } from '../Provider/AuthProvider'
 import useAxiosSecure from '../Hook/useAxiosSecure'
 import useAuth from '../Provider/useAuth'
 import axios from 'axios'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const MyPostedJobs = () => {
 
@@ -15,80 +16,58 @@ const {user} = useAuth()
 
   // const { user } = useContext(AuthContext)
 
-  const [jobs, setJobs] = useState([])
+  // const [jobs, setJobs] = useState([])
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure()
 
-  useEffect(() => {
-    console.log(user, 'here User');
-    getData()
-  }, [user])
+  // useEffect(() => {
+  //   console.log(user, 'here User');
+  //   getData()
+  // }, [user])
 
+  const {data: jobs = [],
+    isLoading,
+    isError, refetch
+  } = useQuery({
+    queryFn: () => getData(),
+    queryKey: ['jobs']
+  })
 
 
   const getData = async () => {
     const { data } = await axiosSecure(`/jobs/${user?.email}`)
-    setLoading(false)
-    setJobs(data)
+    return data
   }
-  // const getData = async () => {
-  //   const { data } = await axiosSecure(`/job/${user?.email}`)
-  //   console.log(data, 'gdsajufgjugds');
-  //   setJobs(data)
-  // }
 
+const {mutateAsync} = useMutation({
+  mutationFn: async ({id}) => {
+    const { data } = await axiosSecure.delete(`/jobs/${id}`)
 
-  // const getData = async () => {
-  //   if (!user?.email) {
-  //     setLoading(false);
-  //     return;
-  //   }
-  //   try {
-  //     const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.email}`);
+   
+  },
+  onSuccess: () => {
+    toast.success('Delete Successful')
 
-  //     setJobs(data);
-  //   } catch (error) {
-  //     console.error("Error fetching jobs:", error.message);
-  //     toast.error("Failed to fetch jobs.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+    //refresh ui
+    refetch()
+  }
+})
   
 
-  // const getData = async () => {
-  //   // setLoading(true)
-  //   const { data } = await axios(
-  //     `${import.meta.env.VITE_API_URL}/jobs/${user?.email}`,
-  //     { withCredentials: true }
-  //   )
-  //   console.log(data, 'fsd');
-  //   setLoading(false)
-  //   setJobs(data)
-  // }
-
-
-
-
+  const handleDelete = async (id) => {
+   
   
-
-  const handleDelete = async id => {
-    try {
-      const { data } = await axiosSecure.delete(`/jobs/${id}`)
-
-      console.log(data)
-
-      toast.success('Delete Successful')
-
 
       //refresh ui
       getData()
-    } catch (err) {
-      console.log(err.message)
-      toast.error(err.message)
-    }
+      await mutateAsync({id})    
   }
+
+if(isLoading) return <Loader></Loader>
+
+if(isError) return console.log(isError);
+
   return (
     <section className='container px-4 mx-auto pt-12'>
       <div className='flex items-center gap-x-3'>
@@ -102,7 +81,7 @@ const {user} = useAuth()
       <div className='flex flex-col mt-6'>
         <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
           {
-            loading ? <div className="flex items-center h-screen min-w-9 justify-center"><Loader></Loader></div> : <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
+            isLoading ? <div className="flex items-center h-screen min-w-9 justify-center"><Loader></Loader></div> : <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
               <div className='overflow-hidden border border-gray-200  md:rounded-lg'>
                 <table className='min-w-full divide-y divide-gray-200'>
                   <thead className='bg-gray-50'>

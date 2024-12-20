@@ -1,29 +1,60 @@
 import { useEffect, useState } from "react"
 import useAuth from "../Provider/useAuth"
 import axios from "axios"
+import useAxiosSecure from "../Hook/useAxiosSecure"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import toast from "react-hot-toast"
+import Loader from "../Component/Loader"
 
 const MyBids = () => {
 
   const {user } = useAuth()
-  const [bids, setBids] = useState([])
+  // const [bids, setBids] = useState([])
 
-  useEffect(() => {
-    getData()
-  }, [user])
+  const axiosSecure = useAxiosSecure()
+
+  // useEffect(() => {
+  //   getData()
+  // }, [user])
+
+  const {data: bids = [], 
+    isLoading,
+     refetch,
+    error
+  } = useQuery({
+    queryFn: () => getData(),
+    queryKey: ['bids  ']
+  })
 
   const getData = async () => {
-    const { data } = await axios(`${import.meta.env.VITE_API_URL}/my-bids/${user?.email}`)
-    setBids(data)
+    const { data } = await axiosSecure(`/my-bids/${user?.email}`)
+    return data
   }
+
+ const {mutateAsync} = useMutation({
+    mutationFn: async ({id, status})=> {
+      const { data } = await axiosSecure(`/bid/${id}`, {status})
+    console.log(data);
+    },
+    onSuccess: () => {
+      toast.success('Done')
+
+      refetch()
+    }
+  })
   ///handle Status
 
   const handleStatus = async(id, status) => {
 
 
-    const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bid/${id}`, {status})
-    console.log(data);
     getData()
+
+   await mutateAsync(id, status)
   }
+
+  if(isLoading) return <Loader></Loader>
+  if(error) return console.log(error);
+  
       return (
       <section className='container px-4 mx-auto pt-12'>
         <div className='flex items-center gap-x-3'>

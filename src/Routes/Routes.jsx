@@ -13,6 +13,8 @@ import BidRequests from "../Pages/BidRequests";
 import UpdateJob from "../Pages/UpdateJob";
 import PrivateRoute from "./PrivateRoute";
 import TemplateUploader from "../Pages/TemplateUploader";
+import Alljobs from "../Pages/AllJobs";
+import AllJobs from "../Pages/AllJobs";
 
 
 const router = createBrowserRouter([
@@ -69,6 +71,11 @@ const router = createBrowserRouter([
                 
                 
             },
+            {
+                path: '/all-jobs',
+                element: <AllJobs></AllJobs>
+
+            }
         ]
     }
 ])
