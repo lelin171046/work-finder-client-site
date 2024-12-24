@@ -14,17 +14,9 @@ const MyPostedJobs = () => {
 
 const {user} = useAuth()
 
-  // const { user } = useContext(AuthContext)
-
-  // const [jobs, setJobs] = useState([])
-
-  // const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure()
 
-  // useEffect(() => {
-  //   console.log(user, 'here User');
-  //   getData()
-  // }, [user])
+
 
   const {data: jobs = [],
     isLoading,
