@@ -116,6 +116,7 @@ const UpdateJob = () => {
                 <option value='Web Development'>Web Development</option>
                 <option value='Graphics Design'>Graphics Design</option>
                 <option value='Digital Marketing'>Digital Marketing</option>
+                <option value='Video Editing'>Video Editing</option>
               </select>
             </div>
             <div>

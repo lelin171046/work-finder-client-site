@@ -1,103 +1,153 @@
 import React, { useState } from 'react';
 
 function TemplateUploader() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [file, setFile] = useState(null);
-  const [link, setLink] = useState('');
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setLink(''); // Clear link field if a file is selected
-    } else {
-      alert('Please select a PDF file.');
-    }
-  };
-
-  const handleLinkChange = (e) => {
-    setLink(e.target.value);
-    setFile(null); // Clear file if a link is provided
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title || !description) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    if (!file && !link) {
-      alert('Please upload a PDF file or provide a template link.');
-      return;
-    }
-
-    // Handle form submission logic here
-    console.log({
-      title,
-      description,
-      file,
-      link,
-    });
-
-    alert('Template uploaded successfully!');
-    // Reset form fields
-    setTitle('');
-    setDescription('');
-    setFile(null);
-    setLink('');
-  };
+  
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-16 bg-white rounded-lg shadow-2xl">
-      <h2 className="text-4xl p-6 font-bold text-center text-green-500 mb-4">Upload Your Template</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-2">Template Title</label>
-          <input
-            type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-2">Template Description</label>
-          <textarea
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-2">Upload Template File (EXCEL)</label>
-
-          <input type="file"  onChange={handleFileChange}  accept="application/xlsx"
-            disabled={link.length > 0} className="file-input file-input-bordered file-input-success w-full max-w-xs" />
-          
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-2">Template Link</label>
-          <input
-            type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            value={link}
-            onChange={handleLinkChange}
-            placeholder="Enter link instead of uploading PDF"
-            disabled={file !== null}
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-        >
-          Upload Template
-        </button>
-      </form>
+   <div className="items-center text-center py-10">
+     <div className=" stats bg-primary text-primary-content">
+    <div className="stat">
+      <div className="stat-title">Account balance</div>
+      <div className="stat-value">$89,400</div>
+      <div className="stat-actions">
+        <button className="btn btn-sm btn-success">Add funds</button>
+      </div>
     </div>
+  
+    <div className="stat">
+      <div className="stat-title">Current balance</div>
+      <div className="stat-value">$89,400</div>
+      <div className="stat-actions">
+        <button className="btn btn-sm">Withdrawal</button>
+        <button className="btn btn-sm">Deposit</button>
+      </div>
+    </div>
+  </div>
+
+  <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800">
+	<h2 className="mb-4 text-2xl font-semibold leading-tight">Invoices</h2>
+	<div className="overflow-x-auto">
+		<table className="min-w-full text-xs">
+			<colgroup>
+				<col />
+				<col />
+				<col />
+				<col />
+				<col />
+				<col className="w-24" />
+			</colgroup>
+			<thead className="dark:bg-gray-300">
+				<tr className="text-left">
+					<th className="p-3">Invoice #</th>
+					<th className="p-3">Client</th>
+					<th className="p-3">Issued</th>
+					<th className="p-3">Due</th>
+					<th className="p-3 text-right">Amount</th>
+					<th className="p-3">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
+					<td className="p-3">
+						<p>97412378923</p>
+					</td>
+					<td className="p-3">
+						<p>Microsoft Corporation</p>
+					</td>
+					<td className="p-3">
+						<p>14 Jan 2022</p>
+						<p className="dark:text-gray-600">Friday</p>
+					</td>
+					<td className="p-3">
+						<p>01 Feb 2022</p>
+						<p className="dark:text-gray-600">Tuesday</p>
+					</td>
+					<td className="p-3 text-right">
+						<p>$15,792</p>
+					</td>
+					<td className="p-3 text-right">
+						<span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
+							<span>Pending</span>
+						</span>
+					</td>
+				</tr>
+				<tr className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
+					<td className="p-3">
+						<p>97412378923</p>
+					</td>
+					<td className="p-3">
+						<p>Tesla Inc.</p>
+					</td>
+					<td className="p-3">
+						<p>14 Jan 2022</p>
+						<p className="dark:text-gray-600">Friday</p>
+					</td>
+					<td className="p-3">
+						<p>01 Feb 2022</p>
+						<p className="dark:text-gray-600">Tuesday</p>
+					</td>
+					<td className="p-3 text-right">
+						<p>$275</p>
+					</td>
+					<td className="p-3 text-right">
+						<span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
+							<span>Pending</span>
+						</span>
+					</td>
+				</tr>
+				<tr className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
+					<td className="p-3">
+						<p>97412378923</p>
+					</td>
+					<td className="p-3">
+						<p>Coca Cola co.</p>
+					</td>
+					<td className="p-3">
+						<p>14 Jan 2022</p>
+						<p className="dark:text-gray-600">Friday</p>
+					</td>
+					<td className="p-3">
+						<p>01 Feb 2022</p>
+						<p className="dark:text-gray-600">Tuesday</p>
+					</td>
+					<td className="p-3 text-right">
+						<p>$8,950,500</p>
+					</td>
+					<td className="p-3 text-right">
+						<span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
+							<span>Pending</span>
+						</span>
+					</td>
+				</tr>
+				<tr className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
+					<td className="p-3">
+						<p>97412378923</p>
+					</td>
+					<td className="p-3">
+						<p>Nvidia Corporation</p>
+					</td>
+					<td className="p-3">
+						<p>14 Jan 2022</p>
+						<p className="dark:text-gray-600">Friday</p>
+					</td>
+					<td className="p-3">
+						<p>01 Feb 2022</p>
+						<p className="dark:text-gray-600">Tuesday</p>
+					</td>
+					<td className="p-3 text-right">
+						<p>$98,218</p>
+					</td>
+					<td className="p-3 text-right">
+						<span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
+							<span>Pending</span>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+   </div>
   );
 }
 
