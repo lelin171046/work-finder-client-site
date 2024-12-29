@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 
 const JobCard = ({job}) => {
     const { category, job_title, _id, deadline, 
-      description, max_price,min_price
-,buyer_email
-} = job;
+      description, max_price,min_price , bid_count, buyer_email,
+} = job
    
     return (
       <Link to={`/job/${_id}`} className='w-full px-4 bg-violet-300 py-3 text-white rounded-md shadow-md hover:scale-[1.05] transition-all'>
@@ -29,9 +28,13 @@ const JobCard = ({job}) => {
           <p title={description} className='mt-2 text-sm text-gray-600 '>
             {description.substring(0,70)}......
           </p>
+          <div className="flex justify-start gap-2">
           <p className='mt-2 text-sm font-bold text-gray-600 '>
             Range: ${max_price} - ${min_price}
+            
           </p>
+          <p className='mt-2 text-sm font-bold text-gray-600'>Bid: {bid_count}</p>
+          </div>
         </div>
       </Link>
     )

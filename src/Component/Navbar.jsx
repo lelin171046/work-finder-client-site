@@ -1,9 +1,40 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../Provider/AuthProvider"
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 const Navbar = () => {
+
+//  const [search, setSearch] = useState('')
+//   const [searchText, setSearchText] = useState('')
+  
   const { user, logOut } = useContext(AuthContext)
+
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { data } = await axios(
+  //       `${
+  //         import.meta.env.VITE_API_URL
+  //       }/all-jobs?search=${search}`
+  //     )
+  //     setJobs(data)
+  //   }
+  //   getData()
+  // }, [ search,])
+  // useEffect(() => {
+  //   const getCount = async () => {
+  //     const { data } = await axios(
+  //       `${
+  //         import.meta.env.VITE_API_URL
+  //       }/jobs-count?&search=${search}`
+  //     )
+
+  //     setCount(data.count)
+  //   }
+  //   getCount()
+  // }, [ search])
+
   return (
     <div className='navbar bg-base-100 border-2 mt-5 border-purple-400 rounded-lg shadow-sm container px-4 mx-auto'>
       <div className='flex-1'>
@@ -23,9 +54,11 @@ const Navbar = () => {
           <li>
             <Link to={'/all-jobs'}> <div>All Jobs</div></Link>
           </li>
-          <li>
-            <Link to={'/temp'}>Temp</Link>
+          { user && <li>
+            <Link to={'/temp'}>Earnings</Link>
           </li>
+
+          }
 
           {!user && <li>
             <Link to={'/login'}> <div>Login</div></Link>
